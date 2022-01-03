@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>menu</title>
+    <style>
+        *{
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        body{
+            background: rgb(68,134,95);
+        }
+        img{
+            width: 90%;
+            border-radius: 8px;
+            box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+        }
+        .menu{
+            display: flex;
+            margin: 50px;
+        }
+        button{
+            padding:12px 5px;
+            width: 40%;
+            border: none;
+            border-radius: 8px;
+            background-color: black;
+            color: white;
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        }
+        button:hover{
+            background-color: rgb(22, 99, 46);
+            color: black;
+            font-weight: bold;
+        }
+        .cartAdd{
+            width: 110px;
+            height: 50px;
+            background-color: black;
+            margin-left: 87%;
+            color: white;
+            text-align: center;
+            border-radius: 10px;
+            box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+        }
+        .cartAdd>h4{    padding-top: 15%;
+        }
+        
+    </style>
+</head>
+<body>
+    <div>
+        <div class="cartAdd"><h4>Cart</h4></div>
+        <div class="menu">
+           
+        </div>
+    </div>
+</body>
+</html>
+<script>
+    var url = "https://www.themealdb.com/api/json/v1/1/search.php?f=a"
+async function getDishes(){
+    
+    try{
+        let response = await fetch(url)
+        let fooddata = await response.json()
+        console.log(fooddata.meals)
+        display(fooddata.meals)
+    }
+    catch(error){
+        console.log(error)
+    }
+}
+getDishes()
+let cart = JSON.parse(localStorage.getItem("data"))||[]
+function display(fooddata){
+    
+    let menu = document.querySelector(".menu")
+    fooddata.forEach(function(ele){
+        let div = document.createElement("div")
+
+    var image = document.createElement("img")
+    image.src = ele.strMealThumb
+
+    var price = document.createElement("h3")
+    price.textContent = `Price ${Math.floor(Math.random()*500+100)} ₹ `
+    
+    let span  = document.createElement("span")
+
+    var cart = document.createElement("button")
+    cart.textContent = `Add to Cart`
+
+    
+    div.append(image,price,cart)
+    menu.append(div)
+
+    cart.addEventListener("click",goCart)
+    function goCart(){
+        document.querySelector(".cartAdd").innerHTML = ""
+        span.innerText = `${cart.length}`;
+        cart.push(ele)
+        console.log(cart)
+        document.querySelector(".cartAdd").append
+    }
+    })
+ 
+    
+}
+</script>
